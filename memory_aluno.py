@@ -2,7 +2,7 @@ import pygame, sys
 import random, math
 from pygame.locals import *
 from pygame import mixer
-
+#Classe Botão criada
 class Button():
 	def __init__(self, image, pos, text_input, font, base_color, hovering_color):
 		self.image = image
@@ -32,6 +32,7 @@ class Button():
 			self.text = self.font.render(self.text_input, True, self.hovering_color)
 		else:
 			self.text = self.font.render(self.text_input, True, self.base_color)
+
 mixer.init()
 mixer.music.load('sons-musicas/retro-90s-arcade-machine.mp3')
 mixer.music.set_volume(0.7)
@@ -62,7 +63,7 @@ DISPLAYSURF = pygame.display.set_mode((W_SIZE[0], W_SIZE[1]))
 
 pygame.time.set_timer(pygame.USEREVENT, 1000) # veja na doc. do pygame
 
-
+# Função de Menu
 def main_menu():
 
    SCREEN = pygame.display.set_mode((1280, 720))
@@ -109,13 +110,12 @@ def main_menu():
       pygame.display.update()
 
 
-
+#Função tela Opções
 def options():
    SCREEN = pygame.display.set_mode((1280, 720))
    pygame.display.set_caption('Sobre')
    texto = ("Cada jogador deverá levantar duas cartas de uma vez,tentando encontrar o par."
             "Se a segunda carta virada for diferente da primeira,passa um tempo,com o desenho para baixo, e passar a vez.")
-
 
    print(texto)
    def get_font(size):  # Returns Press-Start-2P in the desired size
@@ -182,7 +182,6 @@ def init():
 
 
 def define_message(msg):
-   """ Mostra menssagens """
    global msg_intro
    msg_intro = msg
    
@@ -208,7 +207,7 @@ def draw():
    j = CARD_SIZE[0] / 2
    for x in range(NUMBER_CARDS):
       ''' 
-      TODO: Se uma carta estiver exposta, entao o vetor 'font_surf' 
+      Se uma carta estiver exposta, entao o vetor 'font_surf' 
       deve ser usado para centralizar a sua posicao. Caso contrario,
       um poligono deve ser desenhado. A variável 'j' irá auxiliar para
       definir posicao central do texto da carta, enquanto a variavel 'i' 
@@ -234,7 +233,6 @@ def mouse_click(pos):
    global state, number_turns, cards_clicked, cards_paired
    global msg_intro, exposed, surf_messg
    # indice da carta
-   # TODO: recuperar o indice da carta clicada pelo local do clique
    if(pos[0]<=W_SIZE[0]):
       index = math.floor(pos[0]/50)
 
@@ -245,19 +243,15 @@ def mouse_click(pos):
          state = 2
          number_turns += 1 # fim de um turno
 
-         # TODO: determinar o fim do jogo
          if (cards_paired == 7) :
             define_message("Otimo! Voce terminou em " + str(t_count//60) + "min" + str(t_count%60) + "segs.")
             surf_messg = pygame.font.Font.render(font_messg, msg_intro, True, YELLOW)
+            #Função para tocar som ao acertar os pares
             mixer.music.load('sons-musicas/game-over.wav')
             mixer.music.play()
       else:
          state = 1
-         '''
-         TODO: aqui deve existir um teste condicional para esconder a dupla de cartas
-         que o usuario tentou advinhar, mas não eram iguais. Essas cartas devem ser
-         escondidas novamente.
-         '''
+
          if (deck_cards[cards_clicked[0]] != deck_cards[cards_clicked[1]] ):
             exposed[cards_clicked[0]] = False
             exposed[cards_clicked[1]] = False
@@ -266,7 +260,6 @@ def mouse_click(pos):
             cards_paired += 1
 
          cards_clicked = []
-
 
 
       cards_clicked.append(index)
